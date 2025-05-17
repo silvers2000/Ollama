@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Medi Bot - Your Mental Wellness Companion</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link rel="stylesheet" href="style.css">
+   
+
+    
+</head>
+<body>
+    <header>
+        <nav class="container">
+            <a href="#" class="logo">Medi Bot ✨</a>
+            <ul class="nav-links">
+                <li><a href="#hero">Home</a></li>
+                <li><a href="#features">Features</a></li>
+                <li><a href="#chatbot-section">Chat</a></li>
+                <li><a href="#mood-tracker">Mood Log</a></li>
+                <li><a href="#feedback-section">Feedback</a></li>
+            </ul>
+            <div class="language-selector">
+                <label for="language-select-header" class="sr-only">Select Language</label>
+                <i class="fas fa-globe"></i>
+                <select id="language-select-header">
+                    <option value="en">EN</option>
+                    <option value="hi">HI</option>
+                </select>
+            </div>
+        </nav>
+    </header>
+
+    <main>
+        <section id="hero" class="hero-section">
+            <div class="container hero-content">
+                <div class="hero-text">
+                    <h1>Find Your Calm with <span class="highlight">Medi Bot</span></h1>
+                    <p class="subtitle">Your intelligent and compassionate companion for mental well-being. Start your journey to a healthier mind today.</p>
+                    <a href="#chatbot-section" class="btn btn-primary">Chat Now <i class="fas fa-arrow-right"></i></a>
+                </div>
+                <div class="hero-image-container">
+                    <!-- Placeholder for a more engaging image/animation -->
+                    <img src="hero_illustration.png" alt="Mental Wellness Illustration" class="hero-image">
+                </div>
+            </div>
+        </section>
+
+        <section id="features" class="features-section">
+            <div class="container">
+                <h2 class="section-title">Core Features</h2>
+                <div class="features-grid">
+                    <div class="feature-card">
+                        <i class="fas fa-comments feature-icon"></i>
+                        <h3>AI Chatbot</h3>
+                        <p>Engage in supportive conversations in English or Hindi. Powered by Gemini.</p>
+                    </div>
+                    <div class="feature-card">
+                        <i class="fas fa-smile-beam feature-icon"></i>
+                        <h3>Mood Logging</h3>
+                        <p>Track your daily moods, intensity, and add personal notes to understand your emotional patterns.</p>
+                    </div>
+                    <div class="feature-card">
+                        <i class="fas fa-chart-line feature-icon"></i>
+                        <h3>Mood Analysis</h3>
+                        <p>Gain insights from your mood history with basic analysis (more coming soon!).</p>
+                    </div>
+                     <div class="feature-card">
+                        <i class="fas fa-language feature-icon"></i>
+                        <h3>Multilingual</h3>
+                        <p>Seamlessly switch between English and Hindi for a comfortable experience.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="chatbot-section" class="chatbot-section-container">
+            <div class="container">
+                <h2 class="section-title">Chat with Medi Bot</h2>
+                <div class="chat-interface">
+                    <div id="chat-output" class="chat-output-enhanced"></div>
+                    <div class="chat-input-area">
+                        <input type="text" id="chat-input" placeholder="Type your message here...">
+                        
+                        <button id="send-chat-btn" aria-label="Send message"><i class="fas fa-paper-plane"></i></button>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="mood-tracker" class="mood-tracker-container">
+            <div class="container">
+                <h2 class="section-title">Log Your Mood</h2>
+                <div class="mood-form-card">
+                    <div class="form-group">
+                        <label for="user-id-mood" >User ID (for tracking):</label>
+                        <input type="text" id="user-id-mood" placeholder="Enter your user ID (e.g., user123)">
+                    </div>
+                    <div class="form-group">
+                        <label for="mood-select">How are you feeling?</label>
+                        <select id="mood-select">
+                            <option value="happy">😊 Happy</option>
+                            <option value="sad">😢 Sad</option>
+                            <option value="anxious">😟 Anxious</option>
+                            <option value="stressed">😫 Stressed</option>
+                            <option value="calm">😌 Calm</option>
+                            <option value="neutral">😐 Neutral</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="mood-intensity">Intensity (1-10):</label>
+                        <input type="range" id="mood-intensity" min="1" max="10" value="5">
+                        <span id="mood-intensity-value">5</span>
+                    </div>
+                    <div class="form-group">
+                        <label for="mood-notes">Notes (optional):</label>
+                        <textarea id="mood-notes" placeholder="Any additional thoughts or details..."></textarea>
+                    </div>
+                    <button id="log-mood-btn" class="btn btn-secondary">Log Mood</button>
+                    <div id="mood-log-status" class="status-message"></div>
+                </div>
+            </div>
+        </section>
+
+        <section id="feedback-section" class="feedback-section-container">
+            <div class="container">
+                <h2 class="section-title">We Value Your Feedback</h2>
+                <div class="feedback-form-card">
+                    <textarea id="feedback-input" placeholder="Share your thoughts, suggestions, or feature requests..."></textarea>
+                    <button id="submit-feedback-btn" class="btn btn-secondary">Submit Feedback</button>
+                    <div id="feedback-status" class="status-message"></div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        <div class="container">
+            <p>&copy; 2025 Medi Bot. All rights reserved. Designed for your well-being.</p>
+            <div class="footer-links">
+                <a href="#">Privacy Policy</a> | <a href="#">Terms of Service</a>
+            </div>
+        </div>
+    </footer>
+    <!-- after your other <script> tags -->
+    <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+    <script src="script.js"></script>
+</body>
+</html>
+
