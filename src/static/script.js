@@ -140,6 +140,29 @@ document.addEventListener("DOMContentLoaded", () => {
         });
     }
 
+    // ——— Fetch & render mood history and analysis ———
+    async function refreshMoodHistory() {
+        if (!window.currentUserId) return;
+        const lang = languageSelectHeader.value;
+        // 1) raw history
+        const histRes  = await fetch(`/api/mood/get_mood_history/${window.currentUserId}?language=${lang}`);
+        const { mood_history } = await histRes.json();
+        const historyList = document.getElementById("mood-history");
+        if (historyList) {
+            historyList.innerHTML = "";
+            mood_history.forEach(entry => {
+                const li = document.createElement("li");
+                li.textContent = `${new Date(entry.timestamp).toLocaleString()}: ${entry.mood} (${entry.intensity}) – ${entry.notes}`;
+                historyList.appendChild(li);
+            });
+        }
+        // 2) analysis summary
+        const analRes = await fetch(`/api/mood/analyze_mood/${window.currentUserId}?language=${lang}`);
+        const { analysis } = await analRes.json();
+        const analysisPre = document.getElementById("mood-analysis");
+        if (analysisPre) analysisPre.textContent = JSON.stringify(analysis, null, 2);
+    }
+
     // Log mood
     if (logMoodBtn) {
         logMoodBtn.addEventListener("click", async () => {
@@ -176,6 +199,8 @@ document.addEventListener("DOMContentLoaded", () => {
                     moodLogStatus.textContent = data.message;
                     moodLogStatus.className = "status-message success-message visible";
                     window.currentUserId = userId;
+                    // immediately refresh history & analysis
+                    await refreshMoodHistory();
                 } else {
                     moodLogStatus.textContent = `Error: ${data.error || "Failed to log mood"}`;
                     moodLogStatus.className = "status-message error-message visible";
