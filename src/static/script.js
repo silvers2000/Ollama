@@ -144,23 +144,52 @@ document.addEventListener("DOMContentLoaded", () => {
     async function refreshMoodHistory() {
         if (!window.currentUserId) return;
         const lang = languageSelectHeader.value;
-        // 1) raw history
-        const histRes  = await fetch(`/api/mood/get_mood_history/${window.currentUserId}?language=${lang}`);
-        const { mood_history } = await histRes.json();
-        const historyList = document.getElementById("mood-history");
-        if (historyList) {
-            historyList.innerHTML = "";
-            mood_history.forEach(entry => {
-                const li = document.createElement("li");
-                li.textContent = `${new Date(entry.timestamp).toLocaleString()}: ${entry.mood} (${entry.intensity}) – ${entry.notes}`;
-                historyList.appendChild(li);
-            });
+
+        try {
+            // 1) raw history
+            const histRes = await fetch(`/api/mood/get_mood_history/${window.currentUserId}?language=${lang}`);
+            if (!histRes.ok) {
+                const err = await histRes.json().catch(() => ({}));
+                moodLogStatus.textContent = `Error fetching history: ${err.error || histRes.statusText}`;
+                moodLogStatus.className = "status-message error-message visible";
+                return;
+            }
+            const { mood_history } = await histRes.json();
+            const historyList = document.getElementById("mood-history");
+            if (historyList) {
+                historyList.innerHTML = "";
+                if (Array.isArray(mood_history) && mood_history.length > 0) {
+                    mood_history.forEach(entry => {
+                        const li = document.createElement("li");
+                        li.textContent = `${new Date(entry.timestamp).toLocaleString()}: ${entry.mood} (${entry.intensity}) – ${entry.notes}`;
+                        historyList.appendChild(li);
+                    });
+                } else {
+                    historyList.textContent = "No mood history available.";
+                }
+            }
+
+            // 2) analysis summary
+            const analRes = await fetch(`/api/mood/analyze_mood/${window.currentUserId}?language=${lang}`);
+            if (!analRes.ok) {
+                const err = await analRes.json().catch(() => ({}));
+                moodLogStatus.textContent = `Error fetching analysis: ${err.error || analRes.statusText}`;
+                moodLogStatus.className = "status-message error-message visible";
+                return;
+            }
+            const { analysis } = await analRes.json();
+            const analysisPre = document.getElementById("mood-analysis");
+            if (analysisPre) {
+                if (analysis) {
+                    analysisPre.textContent = JSON.stringify(analysis, null, 2);
+                } else {
+                    analysisPre.textContent = "No analysis available.";
+                }
+            }
+        } catch (error) {
+            moodLogStatus.textContent = `Error: ${error.message}`;
+            moodLogStatus.className = "status-message error-message visible";
         }
-        // 2) analysis summary
-        const analRes = await fetch(`/api/mood/analyze_mood/${window.currentUserId}?language=${lang}`);
-        const { analysis } = await analRes.json();
-        const analysisPre = document.getElementById("mood-analysis");
-        if (analysisPre) analysisPre.textContent = JSON.stringify(analysis, null, 2);
     }
 
     // Log mood

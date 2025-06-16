@@ -56,3 +56,6 @@ response = requests.post(
         "stream": False
     }
 )
+
+```
+This snippet demonstrates how Medi Bot sends chat prompts to the local Ollama server.
